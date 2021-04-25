@@ -4,21 +4,27 @@
       color="primary"
   >
     <v-btn>
-      <span>Recent</span>
+      <span>注册/登录</span>
 
-      <v-icon>mdi-history</v-icon>
+      <v-icon>mdi-login</v-icon>
     </v-btn>
 
     <v-btn>
-      <span>Favorites</span>
+      <span>商品列表</span>
 
-      <v-icon>mdi-heart</v-icon>
+      <v-icon>mdi-shopping</v-icon>
     </v-btn>
 
     <v-btn>
-      <span>Nearby</span>
+      <span>购物车</span>
 
-      <v-icon>mdi-map-marker</v-icon>
+      <v-icon>mdi-cart</v-icon>
+    </v-btn>
+
+    <v-btn>
+      <span>订单管理</span>
+
+      <v-icon>mdi-reorder-horizontal</v-icon>
     </v-btn>
   </v-bottom-navigation>
 </template>
@@ -26,7 +32,7 @@
 <script>
 export default {
   name: "NaviDrawer",
-  data: () => ({value: 1}),
+  data: () => ({value: 2}),
 }
 </script>
 
