@@ -29,6 +29,7 @@
     </v-app-bar>
 
     <v-main>
+      <LoginPage/>
       <GoodsItem v-for="(item, index) in goods_list" v-bind:item="item" :key="index" class="goods-item-list"/>
     </v-main>
     <ButtomNavi class="button-navi"/>
@@ -39,13 +40,15 @@
 // import HelloWorld from './components/HelloWorld';
 import ButtomNavi from "./components/ButtomNavi";
 import GoodsItem from "./components/GoodsItem";
+import LoginPage from "./components/LoginPage";
 
 export default {
   name: 'App',
 
   components: {
     ButtomNavi,
-    GoodsItem
+    GoodsItem,
+    LoginPage
   },
 
   data: () => ({

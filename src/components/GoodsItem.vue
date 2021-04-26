@@ -10,7 +10,7 @@
         :src="'http://202.193.52.12:8080/' + goods.pthumbnail"
     ></v-img>
 
-    <v-card-title>{{goods.name}}</v-card-title>
+    <v-card-title>{{ goods.name }}</v-card-title>
     <v-card-text>
       <v-row
           align="center"
@@ -19,7 +19,7 @@
       </v-row>
 
       <div class="my-4 subtitle-1">
-        $ {{goods.price1}}
+        $ {{ goods.price1 }}
       </div>
     </v-card-text>
 
@@ -53,8 +53,8 @@ export default {
     addGoodsToCart() {
       this.$axios.get('/goods/list')
           .then(res => {
-        console.log(res.data)
-      }).catch(error => {
+            console.log(res.data)
+          }).catch(error => {
         alert("数据获取失败" + error)
       })
     }
