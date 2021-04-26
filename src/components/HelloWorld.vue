@@ -1,5 +1,5 @@
 <template>
-<h2>2222</h2>
+<h2>{{name}}</h2>
 </template>
 
 <script>
@@ -7,7 +7,7 @@
     name: 'HelloWorld',
 
     data: () => ({
-
+      name: 'Hello'
     }),
   }
 </script>

@@ -32,7 +32,7 @@
 <script>
 export default {
   name: "NaviDrawer",
-  data: () => ({value: 2}),
+  data: () => ({value: 1}),
 }
 </script>
 
