@@ -41,6 +41,7 @@
 import ButtomNavi from "./components/ButtomNavi";
 import GoodsItem from "./components/GoodsItem";
 import LoginPage from "./components/LoginPage";
+import RegisterPage from "./components/RegisterPage";
 
 export default {
   name: 'App',
@@ -48,7 +49,9 @@ export default {
   components: {
     ButtomNavi,
     GoodsItem,
-    LoginPage
+    LoginPage,
+    
+    RegisterPage
   },
 
   data: () => ({
