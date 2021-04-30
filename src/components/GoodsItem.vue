@@ -38,7 +38,7 @@
 <script>
 export default {
   name: "GoodsItem",
-  props: ['item'],
+  props: ['item', 'userId'],
   data: () => {
     return {
       goods: {},

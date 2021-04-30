@@ -29,8 +29,14 @@
     </v-app-bar>
 
     <v-main>
-      <LoginPage/>
-      <GoodsItem v-for="(item, index) in goods_list" v-bind:item="item" :key="index" class="goods-item-list"/>
+      <LoginPage v-if="isShowLogin" @click="loginToServer"/>
+      <div class="GoodsItem" v-if="isShowGoodsList">
+        <GoodsItem v-for="(item, index) in goods_list"
+                   v-bind:item="item"
+                   :key="index"
+                   :user-id="userId"
+                   class="goods-item-list"/>
+      </div>
     </v-main>
     <ButtomNavi class="button-navi"/>
   </v-app>
@@ -50,12 +56,19 @@ export default {
     ButtomNavi,
     GoodsItem,
     LoginPage,
-    
+
     RegisterPage
   },
 
   data: () => ({
-    goods_list: []
+    goods_list: [],
+    isShowLogin: true,
+    isShowCart: false,
+    isShowGoodsList: false,
+    isShowOrder: false,
+    userName: "",
+    passwd: "",
+    userId: ""
   }),
 
   methods: {
@@ -65,6 +78,14 @@ export default {
             this.goods_list = res.data
           }).catch(error => {
         alert("数据获取失败" + error)
+      })
+    },
+    loginToServer() {
+      this.$axios.post('/user/login?name=' + this.userName + "&password=" + this.passwd)
+      .then(res => {
+        this.userId = res.data;
+      }).catch(error => {
+
       })
     }
   },
