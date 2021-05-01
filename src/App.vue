@@ -28,19 +28,19 @@
 
     <v-main>
       <LoginPage v-show="this.$global.isShowLogin"
-                 @sendUserIdEvent="showUserId" :user-id="userId"/>
+                 @sendUserIdEvent="showCartFromUserId"/>
       <!--      这里有子组件给父组件传值的写法-->
       <div class="GoodsItem"
            v-show="this.$global.isShowGoodsList">
         <GoodsItem v-for="(item, index) in goods_list"
                    v-bind:item="item"
                    :key="index"
-                   :user-id="userId"
                    class="goods-item-list"/>
       </div>
       <div class="CartItem"
            v-show="this.$global.isShowCart">
-        <Cart :user-id="userId"/>
+        <Cart :item="cart_list"
+              :user-id="userId"/>
       </div>
     </v-main>
     <BottomNavi class="bottom-navi"
@@ -82,9 +82,19 @@ export default {
         alert("数据获取失败..." + error)
       })
     },
-    showUserId(data) {
-      if (data !== "invalid") {
+    showCartFromUserId(data) {
+      console.log("111", data)
+      if (data !== 'undefined' && data != null && data !== "") {
         this.userId = data;
+        this.updatePage("GoodsList2")
+        this.$axios.get('/cart/listByUser?userId=' + data)
+            .then(res => {
+              this.cart_list = res.data;
+            }).catch(error => {
+          alert("发生错误..." + error);
+        })
+      } else {
+        this.userId = "";
       }
     },
     updatePage(data) {

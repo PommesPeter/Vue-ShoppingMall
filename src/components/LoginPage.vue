@@ -41,38 +41,28 @@
 
 export default {
   name: "LoginPage",
-  props: ['userId'],
+  props: ['user_id'],
 
   data: () => ({
     userName: "",
     passwd: "",
   }),
   methods: {
-    showCartItem() {
-      if (this.userId !== 'undefined' && this.userId != null && this.userId !== "") {
-        this.$axios.get('http://202.193.52.12:8080/cart/listByUser?userId=' + this.userId)
-            .then(res => {
-              this.cart_list = res.data;
-            }).catch(error => {
-          alert("发生错误..." + error);
-        })
-      }
-    },
     loginToServer() {
       this.$axios.post('/user/login?name=' + this.userName + "&password=" + this.passwd)
           .then(res => {
             if (res.data === "invalid") {
               alert("用户名或密码错误，请重试...")
-              this.$emit("sendUserIdEvent", this.userId);
+              this.$emit("sendUserIdEvent", res.data);
             } else {
-              this.userId = res.data;
               this.$global.isShowLogin = false;
-              this.$emit("sendUserIdEvent", this.userId);
+              this.$global.isShowGoodsList = true;
+              this.$forceUpdate();
+              this.$emit("sendUserIdEvent", res.data);
             }
           }).catch(error => {
         alert("登录失败，请重试..." + error)
       });
-      this.showCartItem();
     },
     clear() {
       this.userName = ''

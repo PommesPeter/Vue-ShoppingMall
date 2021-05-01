@@ -22,6 +22,8 @@
       </div>
     </v-card-text>
 
+    <v-spacer></v-spacer>
+
     <v-card-actions>
       <v-btn
           color="deep-purple lighten-2"
