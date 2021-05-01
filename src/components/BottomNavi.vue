@@ -49,6 +49,7 @@ export default {
       this.$global.isShowGoodsList = false;
       this.$global.isShowCart = false;
       this.$forceUpdate();
+      this.$emit("onUpdatePage", "Order");
     },
     switchToGoodsList() {
       this.$global.isShowLogin = false;
@@ -56,6 +57,7 @@ export default {
       this.$global.isShowGoodsList = true;
       this.$global.isShowCart = false;
       this.$forceUpdate();
+      this.$emit("onUpdatePage", "GoodsList");
       console.log("1111", this.$global.isShowLogin, this.$global.isShowGoodsList);
     },
     switchToCart() {
@@ -64,6 +66,7 @@ export default {
       this.$global.isShowGoodsList = false;
       this.$global.isShowCart = true;
       this.$forceUpdate();
+      this.$emit("onUpdatePage", "Cart");
     },
   }
 }

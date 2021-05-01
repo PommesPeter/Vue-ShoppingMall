@@ -36,7 +36,7 @@
 
 <script>
 export default {
-  name: "GoodsItem",
+  name: "Cart",
   props: ['item', 'userId'],
   data: () => {
     return {
@@ -48,9 +48,7 @@ export default {
 
   },
   methods: {
-    addGoodsToCart() {
 
-    },
   }
 }
 </script>

@@ -38,17 +38,26 @@
 </template>
 
 <script>
-import {validationMixin} from 'vuelidate'
-import {required, maxLength, email} from 'vuelidate/lib/validators'
 
 export default {
   name: "LoginPage",
+  props: ['userId'],
 
   data: () => ({
     userName: "",
     passwd: "",
   }),
   methods: {
+    showCartItem() {
+      if (this.userId !== 'undefined' && this.userId != null && this.userId !== "") {
+        this.$axios.get('http://202.193.52.12:8080/cart/listByUser?userId=' + this.userId)
+            .then(res => {
+              this.cart_list = res.data;
+            }).catch(error => {
+          alert("发生错误..." + error);
+        })
+      }
+    },
     loginToServer() {
       this.$axios.post('/user/login?name=' + this.userName + "&password=" + this.passwd)
           .then(res => {
@@ -60,10 +69,10 @@ export default {
               this.$global.isShowLogin = false;
               this.$emit("sendUserIdEvent", this.userId);
             }
-
           }).catch(error => {
         alert("登录失败，请重试..." + error)
-      })
+      });
+      this.showCartItem();
     },
     clear() {
       this.userName = ''
