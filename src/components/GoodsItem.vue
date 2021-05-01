@@ -41,9 +41,8 @@ export default {
   props: ['item', 'userId'],
   data: () => {
     return {
-      goods: {},
-      item_name: "eeee",
-      price: 111
+      item: [],
+      userId: ""
     }
   },
   mounted() {
