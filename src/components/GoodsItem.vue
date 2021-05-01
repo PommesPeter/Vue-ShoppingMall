@@ -41,6 +41,7 @@ export default {
   props: ['item', 'userId'],
   data: () => {
     return {
+      goods : {},
       item: [],
       userId: ""
     }
@@ -50,13 +51,8 @@ export default {
   },
   methods: {
     addGoodsToCart() {
-      this.$axios.get('/goods/list')
-          .then(res => {
-            console.log(res.data)
-          }).catch(error => {
-        alert("数据获取失败" + error)
-      })
-    }
+
+    },
   }
 }
 </script>

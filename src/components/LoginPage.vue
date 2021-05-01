@@ -52,9 +52,15 @@ export default {
     loginToServer() {
       this.$axios.post('/user/login?name=' + this.userName + "&password=" + this.passwd)
           .then(res => {
-            this.userId = res.data;
-            this.$global.isShowLogin = false;
-            this.$emit("sendUserIdEvent", this.userId);
+            if (res.data === "invalid") {
+              alert("用户名或密码错误，请重试...")
+              this.$emit("sendUserIdEvent", this.userId);
+            } else {
+              this.userId = res.data;
+              this.$global.isShowLogin = false;
+              this.$emit("sendUserIdEvent", this.userId);
+            }
+
           }).catch(error => {
         alert("登录失败，请重试..." + error)
       })

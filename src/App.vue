@@ -39,7 +39,8 @@
                    class="goods-item-list"/>
       </div>
     </v-main>
-    <BottomNavi class="bottom-navi"/>
+    <BottomNavi class="bottom-navi"
+                @onUpdatePage="updatePage"/>
   </v-app>
 </template>
 
@@ -70,20 +71,24 @@ export default {
       this.$axios.get('/goods/list')
           .then(res => {
             this.goods_list = res.data;
+            console.log(res.data)
             this.$global.isShowGoodsList = true;
-            this.$forceUpdate();
           }).catch(error => {
         alert("数据获取失败..." + error)
       })
     },
     showUserId(data) {
       this.userId = data;
+      //useless
+
+    },
+    updatePage(data) {
+      console.log("Reloading....", data)
       this.$forceUpdate();
-      this.get_data();
     }
   },
   mounted() {
-
+    this.get_data();
   }
 };
 </script>
