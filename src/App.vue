@@ -7,7 +7,6 @@
     >
       <div class="d-flex align-center">
         <v-img
-            alt="Vuetify Logo"
             class="shrink mr-2"
             contain
             src="./assets/drawing.svg"
@@ -16,7 +15,6 @@
         />
 
         <v-img
-            alt="Vuetify Name"
             class="shrink mt-1 hidden-sm-and-down"
             contain
             min-width="100"
@@ -29,8 +27,11 @@
     </v-app-bar>
 
     <v-main>
-      <LoginPage v-if="isShowLogin" @click="loginToServer"/>
-      <div class="GoodsItem" v-if="isShowGoodsList">
+      <LoginPage v-if="this.$global.isShowLogin"
+                 v-model="this.$global.isShowLogin"
+                 @sendUserIdEvent="showUserId"/>
+<!--      这里有子组件给父组件传值的写法-->
+      <div class="GoodsItem" v-if="this.$global.isShowGoodsList">
         <GoodsItem v-for="(item, index) in goods_list"
                    v-bind:item="item"
                    :key="index"
@@ -38,13 +39,13 @@
                    class="goods-item-list"/>
       </div>
     </v-main>
-    <ButtomNavi class="button-navi"/>
+    <BottomNavi class="bottom-navi"/>
   </v-app>
 </template>
 
 <script>
 // import HelloWorld from './components/HelloWorld';
-import ButtomNavi from "./components/ButtomNavi";
+import BottomNavi from "./components/BottomNavi";
 import GoodsItem from "./components/GoodsItem";
 import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
@@ -53,21 +54,14 @@ export default {
   name: 'App',
 
   components: {
-    ButtomNavi,
+    BottomNavi,
     GoodsItem,
     LoginPage,
-
     RegisterPage
   },
 
   data: () => ({
     goods_list: [],
-    isShowLogin: true,
-    isShowCart: false,
-    isShowGoodsList: false,
-    isShowOrder: false,
-    userName: "",
-    passwd: "",
     userId: ""
   }),
 
@@ -75,29 +69,28 @@ export default {
     get_data() {
       this.$axios.get('/goods/list')
           .then(res => {
-            this.goods_list = res.data
+            this.goods_list = res.data;
+            this.$global.isShowGoodsList = true;
+            this.$forceUpdate();
           }).catch(error => {
-        alert("数据获取失败" + error)
+        alert("数据获取失败..." + error)
       })
     },
-    loginToServer() {
-      this.$axios.post('/user/login?name=' + this.userName + "&password=" + this.passwd)
-      .then(res => {
-        this.userId = res.data;
-      }).catch(error => {
-
-      })
+    showUserId(data) {
+      this.userId = data;
+      this.$forceUpdate();
+      this.get_data();
     }
   },
   mounted() {
-    this.get_data();
+
   }
 };
 </script>
 
 <style>
 
-.button-navi {
+.bottom-navi {
   position: fixed;
 }
 </style>

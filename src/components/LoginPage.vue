@@ -3,21 +3,15 @@
     <form>
       <v-text-field
           v-model="userName"
-          :error-messages="nameErrors"
           :counter="20"
           label="用户名"
           required
-          @input="$v.name.$touch()"
-          @blur="$v.name.$touch()"
           style="justify-content: center; width: auto"
       ></v-text-field>
       <v-text-field
-          v-model="passWord"
-          :error-messages="emailErrors"
+          v-model="passwd"
           label="密码"
           required
-          @input="$v.email.$touch()"
-          @blur="$v.email.$touch()"
           style="justify-content: center; width: auto;"
       ></v-text-field>
 
@@ -27,12 +21,12 @@
 
       <v-btn
           class="mr-4"
-          @click="submit">
+          @click="loginToServer">
         登录
       </v-btn>
       <v-btn
           class="mr-4"
-          @click="submit">
+          @click="registerUser">
         注册
       </v-btn>
       <v-btn @click="clear" style="float: right">
@@ -49,53 +43,27 @@ import {required, maxLength, email} from 'vuelidate/lib/validators'
 
 export default {
   name: "LoginPage",
-  mixins: [validationMixin],
-
-  validations: {
-    name: {required, maxLength: maxLength(10)},
-    email: {required, email},
-    select: {required},
-    checkbox: {
-      checked(val) {
-        return val
-      },
-    },
-  },
 
   data: () => ({
-    userName: '',
-    passWord: '',
+    userName: "",
+    passwd: "",
   }),
-
-  computed: {
-    nameErrors() {
-      const errors = []
-      if (!this.$v.name.$dirty) return errors
-      !this.$v.name.maxLength && errors.push('Name must be at most 10 characters long')
-      !this.$v.name.required && errors.push('Name is required.')
-      return errors
-    },
-    emailErrors() {
-      const errors = []
-      if (!this.$v.email.$dirty) return errors
-      !this.$v.email.email && errors.push('Must be valid e-mail')
-      !this.$v.email.required && errors.push('E-mail is required')
-      return errors
-    },
-  },
-
   methods: {
-     submit() {
-      this.$v.$touch()
+    loginToServer() {
+      this.$axios.post('/user/login?name=' + this.userName + "&password=" + this.passwd)
+          .then(res => {
+            this.userId = res.data;
+            this.$global.isShowLogin = false;
+            this.$emit("sendUserIdEvent", this.userId);
+          }).catch(error => {
+        alert("登录失败，请重试..." + error)
+      })
     },
     clear() {
-      this.$v.$reset()
-      this.name = ''
-      this.email = ''
-      this.select = null
-      this.checkbox = false
+      this.userName = ''
+      this.passwd = ''
     },
-    regiSter() {
+    registerUser() {
       this.$axios.post('http://202.193.52.12:8080/user/register?name=jianhgao3&password=123456')
           .then(res => {
             if (res.data === "isexist") {

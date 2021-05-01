@@ -28,7 +28,7 @@
 
 <script>
 export default {
-  name: "NaviDrawer",
+  name: "BottomNavi",
   data: () => ({value: 1}),
 }
 </script>
