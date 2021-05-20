@@ -1,6 +1,7 @@
 <script>
 
 const isShowLogin = true
+const isShowRegister = false
 const isShowCart = false
 const isShowGoodsList = false
 const isShowOrder = false
@@ -11,6 +12,7 @@ export default {
   isShowLogin,
   isShowCart,
   isShowGoodsList,
+  isShowRegister,
   isShowOrder,
   value
 }

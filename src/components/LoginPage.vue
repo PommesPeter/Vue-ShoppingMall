@@ -26,17 +26,17 @@
       </v-btn>
       <v-btn
           class="mr-4"
-          @click="registerUser">
+          @click="switchToRegister">
         注册
       </v-btn>
       <v-btn @click="clear" style="float: right">
         清空
       </v-btn>
+
     </form>
   </v-container>
 
 </template>
-
 <script>
 
 export default {
@@ -56,7 +56,8 @@ export default {
               this.$emit("sendUserIdEvent", res.data);
             } else {
               this.$global.isShowLogin = false;
-              this.$global.isShowGoodsList = true;
+              this.$global.isShowCart = true;
+              this.$global.value = 2
               this.$forceUpdate();
               this.$emit("sendUserIdEvent", res.data);
             }
@@ -68,18 +69,13 @@ export default {
       this.userName = ''
       this.passwd = ''
     },
-    registerUser() {
-      this.$axios.post('http://202.193.52.12:8080/user/register?name=jianhgao3&password=123456')
-          .then(res => {
-            if (res.data === "isexist") {
-              alert(res.data)
-            } else if (res.data === "ok") {
-              alert(res.data)
-            }
-          })
-          .catch(error => {
-            console.log(error)
-          })
+    switchToRegister () {
+      console.log("str", this.$global.isShowRegister)
+      this.$global.isShowLogin = false;
+      this.$global.isShowRegister = true;
+      console.log("str", this.$global.isShowRegister)
+      this.$forceUpdate();
+      this.$emit("onUpdateLogin", "Register");
     }
   },
 }

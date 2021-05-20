@@ -1,6 +1,6 @@
 <template>
   <div class="root">
-    <div v-for="(goods, index) in cart_list" :key="index">{{goods.name}}</div>
+<!--    <div v-for="(goods, index) in cart_list" :key="index">{{goods.name}}</div>-->
     <v-card
         v-for="(goods, index) in cart_list"
         :key="index"
@@ -21,6 +21,9 @@
         <div class="my-4 subtitle-1">
           单项总价: $ {{ goods.price * parseFloat(goods.num) }}
         </div>
+        <div class="my-5 subtitle-1">
+          商品数量: {{goods.num}}
+        </div>
       </v-card-text>
 
       <v-input></v-input>
@@ -31,6 +34,13 @@
             text
         >
           加入购物车
+        </v-btn>
+        <v-btn
+            color="deep-purple lighten-2"
+            text
+            @click="deleteItem($event)"
+        >
+          删除
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -43,14 +53,18 @@ export default {
   props: ['cart_list', 'userId'],
   data: () => {
     return {
-      pass: ""
+
     }
   },
   mounted() {
-    console.log("cart " + this.cart_list)
-
+    // console.log("cart " + this.cart_list)
   },
-  methods: {}
+  methods: {
+    deleteItem(event) {
+      let current = event.currentTarget;
+      current.get
+    }
+  }
 }
 </script>
 

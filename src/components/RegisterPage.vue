@@ -9,21 +9,18 @@
           style="justify-content: center; width: auto"
       ></v-text-field>
       <v-text-field
-          v-model="passwd"
+          v-model="passwd1"
           label="密码"
           required
           style="justify-content: center; width: auto;"
       ></v-text-field>
+      <v-text-field
+          v-model="passwd2"
+          label="确认密码"
+          required
+          style="justify-content: center; width: auto;"
+      ></v-text-field>
 
-      <div class="footer">
-        <a class="forget password" href="#">Forgot Password?</a>
-      </div>
-
-      <v-btn
-          class="mr-4"
-          @click="loginToServer">
-        登录
-      </v-btn>
       <v-btn
           class="mr-4"
           @click="registerUser">
@@ -31,6 +28,9 @@
       </v-btn>
       <v-btn @click="clear" style="float: right">
         清空
+      </v-btn>
+      <v-btn @click="switchBackToLogin" style="margin-right: 10px; float: right">
+        返回
       </v-btn>
     </form>
   </v-container>
@@ -45,41 +45,40 @@ export default {
 
   data: () => ({
     userName: "",
-    passwd: "",
+    passwd1: "",
+    passwd2: ""
   }),
   methods: {
-    loginToServer() {
-      this.$axios.post('/user/login?name=' + this.userName + "&password=" + this.passwd)
-          .then(res => {
-            if (res.data === "invalid") {
-              alert("用户名或密码错误，请重试...")
-              this.$emit("sendUserIdEvent", res.data);
-            } else {
-              this.$global.isShowLogin = false;
-              this.$global.isShowGoodsList = true;
-              this.$forceUpdate();
-              this.$emit("sendUserIdEvent", res.data);
-            }
-          }).catch(error => {
-        alert("登录失败，请重试..." + error)
-      });
-    },
     clear() {
       this.userName = ''
-      this.passwd = ''
+      this.passwd1 = ''
+      this.passwd2 = ''
     },
     registerUser() {
-      this.$axios.post('http://202.193.52.12:8080/user/register?name=jianhgao3&password=123456')
-          .then(res => {
-            if (res.data === "isexist") {
-              alert(res.data)
-            } else if (res.data === "ok") {
-              alert(res.data)
-            }
-          })
-          .catch(error => {
-            console.log(error)
-          })
+      if (this.passwd1 === this.passwd2) {
+        this.$axios.post('/user/register?name=' + this.userName + '&password=' + this.passwd1)
+            .then(res => {
+              if (res.data === "isexist") {
+                // todo: show tips about register faild please retry
+                alert(res.data)
+              } else if (res.data === "ok") {
+                this.switchBackToLogin();
+                alert(res.data)
+              } else this.$forceUpdate();
+            })
+            .catch(error => {
+              console.log(error)
+            })
+      } else {
+        this.clear();
+        alert("两次输入密码不一致");
+      }
+    },
+    switchBackToLogin() {
+      this.$global.isShowLogin = true;
+      this.$global.isShowRegister = false;
+      this.$forceUpdate();
+      this.$emit("onUpdateLogin", "LoginBack");
     }
   },
 }

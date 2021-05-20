@@ -27,8 +27,10 @@
     </v-app-bar>
 
     <v-main>
-      <LoginPage v-show="this.$global.isShowLogin"
+      <LoginPage v-show="this.$global.isShowLogin" @onUpdateLogin="updatePage"
                  @sendUserIdEvent="showCartFromUserId"/>
+      <RegisterPage v-show="this.$global.isShowRegister"
+                    @onUpdateLogin="updatePage"/>
       <!--      这里有子组件给父组件传值的写法-->
       <div class="GoodsItem"
            v-show="this.$global.isShowGoodsList">
@@ -39,7 +41,7 @@
       </div>
       <div class="CartItem"
            v-show="this.$global.isShowCart">
-        <Cart :item="cart_list"
+        <Cart :cart_list="load_data"
               :user-id="userId"/>
       </div>
     </v-main>
@@ -90,6 +92,7 @@ export default {
         this.$axios.get('/cart/listByUser?userId=' + data)
             .then(res => {
               this.cart_list = res.data;
+              console.log(this.cart_list)
             }).catch(error => {
           alert("发生错误..." + error);
         })
@@ -100,6 +103,11 @@ export default {
     updatePage(data) {
       console.log("Reloading....", data)
       this.$forceUpdate();
+    }
+  },
+  computed: {
+    load_data() {
+      return this.cart_list;
     }
   },
   mounted() {

@@ -7,6 +7,7 @@ import Global from "./components/Global";
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 Vue.prototype.$global = Global
+
 axios.defaults.baseURL = '/'
 new Vue({
   vuetify,

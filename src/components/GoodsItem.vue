@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     addGoodsToCart() {
-
+      //todo: added item to cart by personal user
     },
   }
 }
