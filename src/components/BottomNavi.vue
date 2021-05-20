@@ -1,6 +1,6 @@
 <template>
   <v-bottom-navigation
-      :value="value"
+      :value="this.$global.value"
       color="orange"
       hide-on-scroll
   >
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+
 export default {
   name: "BottomNavi",
   data: () => ({value: 0}),
@@ -41,6 +42,7 @@ export default {
       this.$global.isShowGoodsList = false;
       this.$global.isShowCart = false;
       this.$forceUpdate();
+      this.$global.value = 0
       this.$emit("onUpdatePage", "Login");
     },
     switchToOrder() {
@@ -49,6 +51,7 @@ export default {
       this.$global.isShowGoodsList = false;
       this.$global.isShowCart = false;
       this.$forceUpdate();
+      this.$global.value = 3
       this.$emit("onUpdatePage", "Order");
     },
     switchToGoodsList() {
@@ -57,6 +60,7 @@ export default {
       this.$global.isShowGoodsList = true;
       this.$global.isShowCart = false;
       this.$forceUpdate();
+      this.$global.value = 1
       this.$emit("onUpdatePage", "GoodsList");
       console.log("1111", this.$global.isShowLogin, this.$global.isShowGoodsList);
     },
@@ -66,6 +70,7 @@ export default {
       this.$global.isShowGoodsList = false;
       this.$global.isShowCart = true;
       this.$forceUpdate();
+      this.$global.value = 2
       this.$emit("onUpdatePage", "Cart");
     },
   }
@@ -73,6 +78,8 @@ export default {
 </script>
 
 <style scoped>
-
+v-btn {
+  border-radius: 6px;
+}
 
 </style>
