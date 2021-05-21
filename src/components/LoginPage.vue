@@ -49,21 +49,27 @@ export default {
   }),
   methods: {
     loginToServer() {
-      this.$axios.post('/user/login?name=' + this.userName + "&password=" + this.passwd)
-          .then(res => {
-            if (res.data === "invalid") {
-              alert("用户名或密码错误，请重试...")
-              this.$emit("sendUserIdEvent", res.data);
-            } else {
-              this.$global.isShowLogin = false;
-              this.$global.isShowCart = true;
-              this.$global.value = 2
-              this.$forceUpdate();
-              this.$emit("sendUserIdEvent", res.data);
-            }
-          }).catch(error => {
-        alert("登录失败，请重试..." + error)
-      });
+      if (localStorage.getItem("userId") !== null) {
+        this.$emit("sendUserIdEvent",localStorage.getItem("userId"));
+      } else {
+        this.$axios.post('/user/login?name=' + this.userName + "&password=" + this.passwd)
+            .then(res => {
+              if (res.data === "invalid") {
+                alert("用户名或密码错误，请重试...")
+                this.$emit("sendUserIdEvent", res.data);
+              } else {
+                localStorage.setItem("userId", res.data);
+                this.$global.isShowLogin = false;
+                this.$global.isShowCart = true;
+                this.$global.value = 2
+                this.$forceUpdate();
+                console.log("登录成功")
+                this.$emit("sendUserIdEvent", res.data);
+              }
+            }).catch(error => {
+          alert("登录失败，请重试..." + error)
+        });
+      }
     },
     clear() {
       this.userName = ''

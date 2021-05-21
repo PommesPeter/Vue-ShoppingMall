@@ -56,6 +56,7 @@ export default {
     },
     registerUser() {
       if (this.passwd1 === this.passwd2) {
+        console.log(this.userName, this.passwd1)
         this.$axios.post('/user/register?name=' + this.userName + '&password=' + this.passwd1)
             .then(res => {
               if (res.data === "isexist") {

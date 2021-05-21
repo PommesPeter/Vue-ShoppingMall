@@ -35,18 +35,17 @@
       <div class="GoodsItem"
            v-show="this.$global.isShowGoodsList">
         <GoodsItem v-for="(item, index) in goods_list"
-                   v-bind:item="item"
-                   :key="index"
+                   :item="item" :key="index" :user-id="userId"
                    class="goods-item-list"/>
       </div>
       <div class="CartItem"
            v-show="this.$global.isShowCart">
-        <Cart :cart_list="load_data"
+        <CartList :cart_list="load_data"
               :user-id="userId"/>
       </div>
     </v-main>
     <BottomNavi class="bottom-navi"
-                @onUpdatePage="updatePage"/>
+                @onUpdatePage="updatePage" @onUpdateList="showCartFromUserId(userId)"/>
   </v-app>
 </template>
 
@@ -56,7 +55,7 @@ import BottomNavi from "./components/BottomNavi";
 import GoodsItem from "./components/GoodsItem";
 import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
-import Cart from "./components/Cart";
+import CartList from "./components/CartList";
 
 export default {
   name: 'App',
@@ -66,13 +65,13 @@ export default {
     GoodsItem,
     LoginPage,
     RegisterPage,
-    Cart
+    CartList
   },
 
   data: () => ({
     goods_list: [],
     cart_list: [],
-    userId: ""
+    userId: localStorage.getItem("userId")
   }),
 
   methods: {
@@ -85,14 +84,14 @@ export default {
       })
     },
     showCartFromUserId(data) {
-      console.log("111", data)
+      console.log(data, "1111")
       if (data !== 'undefined' && data != null && data !== "") {
         this.userId = data;
         this.updatePage("GoodsList2")
         this.$axios.get('/cart/listByUser?userId=' + data)
             .then(res => {
               this.cart_list = res.data;
-              console.log(this.cart_list)
+              // console.log(res.data)
             }).catch(error => {
           alert("发生错误..." + error);
         })

@@ -62,7 +62,6 @@ export default {
       this.$forceUpdate();
       this.$global.value = 1
       this.$emit("onUpdatePage", "GoodsList");
-      console.log("1111", this.$global.isShowLogin, this.$global.isShowGoodsList);
     },
     switchToCart() {
       this.$global.isShowLogin = false;
@@ -72,6 +71,7 @@ export default {
       this.$forceUpdate();
       this.$global.value = 2
       this.$emit("onUpdatePage", "Cart");
+      this.$emit("onUpdateList", "CartList")
     },
   }
 }
