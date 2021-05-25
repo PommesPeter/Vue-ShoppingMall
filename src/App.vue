@@ -38,14 +38,17 @@
                    :item="item" :key="index" :user-id="userId"
                    class="goods-item-list"/>
       </div>
-      <div class="CartItem"
+      <div class="CartList"
            v-show="this.$global.isShowCart">
-        <CartList :cart_list="load_data"
-              :user-id="userId"/>
+        <CartList :cart_list="load_data"/>
+      </div>
+      <div class="OrderList">
+        <OrderList v-show="this.$global.isShowOrder"/>
       </div>
     </v-main>
     <BottomNavi class="bottom-navi"
-                @onUpdatePage="updatePage" @onUpdateList="showCartFromUserId(userId)"/>
+                @onUpdatePage="updatePage" @onUpdateList="showCartFromUserId(userId)"
+                @onUpdateOrderList="showOrderFromUserId(userId)"/>
   </v-app>
 </template>
 
@@ -56,6 +59,7 @@ import GoodsItem from "./components/GoodsItem";
 import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
 import CartList from "./components/CartList";
+import OrderList from "./components/OrderList";
 
 export default {
   name: 'App',
@@ -65,20 +69,23 @@ export default {
     GoodsItem,
     LoginPage,
     RegisterPage,
-    CartList
+    CartList,
+    OrderList
   },
 
   data: () => ({
     goods_list: [],
     cart_list: [],
+    order_list: [],
     userId: localStorage.getItem("userId")
   }),
 
   methods: {
-    get_data() {
+    get_goods_data() {
       this.$axios.get('/goods/list')
           .then(res => {
             this.goods_list = res.data;
+            localStorage.setItem("goods_list", JSON.stringify(res.data));
           }).catch(error => {
         alert("数据获取失败..." + error)
       })
@@ -88,8 +95,9 @@ export default {
       if (data !== 'undefined' && data != null && data !== "") {
         this.userId = data;
         this.updatePage("GoodsList2")
-        this.$axios.get('/cart/listByUser?userId=' + data)
+        this.$axios.get(`/cart/listByUser?userId=${data}`)
             .then(res => {
+              localStorage.setItem("cart_list", JSON.stringify(res.data));
               this.cart_list = res.data;
               // console.log(res.data)
             }).catch(error => {
@@ -98,6 +106,25 @@ export default {
       } else {
         this.userId = "";
       }
+      this.cart_list = JSON.parse(localStorage.getItem("cart_list"))
+    },
+    showOrderFromUserId(data) {
+      console.log(data, "222")
+      if (data !== 'undefined' && data != null && data !== "") {
+        this.userId = data;
+        this.updatePage("OrderList")
+        this.$axios.get('/order/listByUser?userId=' + data)
+            .then(res => {
+              localStorage.setItem("order_list", JSON.stringify(res.data));
+              this.order_list = res.data;
+              console.log(res.data)
+            }).catch(error => {
+          alert("发生错误..." + error);
+        })
+      } else {
+        this.userId = "";
+      }
+      this.order_list = JSON.parse(localStorage.getItem("order_list"));
     },
     updatePage(data) {
       console.log("Reloading....", data)
@@ -110,7 +137,7 @@ export default {
     }
   },
   mounted() {
-    this.get_data();
+    this.get_goods_data();
   }
 };
 </script>

@@ -53,6 +53,7 @@ export default {
       this.$forceUpdate();
       this.$global.value = 3
       this.$emit("onUpdatePage", "Order");
+      this.$emit("onUpdateOrderList", "OrderList")
     },
     switchToGoodsList() {
       this.$global.isShowLogin = false;

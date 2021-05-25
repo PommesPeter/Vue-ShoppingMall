@@ -10,7 +10,7 @@
           height="350"
           :src="'http://202.193.52.12:8080/' + thumbnail"/>
 
-      <v-card-title>{{name}}</v-card-title>
+      <v-card-title ref="cartgoodsname">{{name}}</v-card-title>
 
       <v-card-text>
         <v-row
@@ -35,7 +35,7 @@
         <v-btn
             color="deep-purple lighten-2"
             text
-            @click="deleteItem($event)"
+            @click="deleteItem"
         >
           删除
         </v-btn>
@@ -47,18 +47,25 @@
 <script>
 export default {
   name: "Cart",
-  props: ['cartId', 'userId', 'goodsId', 'thumbnail', 'name', 'num', 'price'],
+  props: ['cartId', 'uId', 'goodsId', 'thumbnail', 'name', 'num', 'price'],
   data: () => {
     return {
-
+      userId: localStorage.getItem("userId")
     }
   },
-  mounted() {
-
-  },
   methods: {
-    deleteItem(event) {
-      let current = event.currentTarget;
+    deleteItem() {
+      this.$axios.post(`/cart/deleteById?userId=${this.userId}&cartId=${this.cartId}`)
+          .then(res => {
+            this.cart_list = res.data;
+            console.log(res.data)
+            localStorage.setItem("cart_list", JSON.stringify(res.data));
+          })
+          .catch(err => {
+            alert("发生错误:" + err);
+          })
+      this.$forceUpdate();
+      this.$emit("onUpdateListAfterDel", "Del list");
     },
   }
 }
