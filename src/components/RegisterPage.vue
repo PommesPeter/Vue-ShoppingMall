@@ -60,7 +60,7 @@ export default {
         this.$axios.post('/user/register?name=' + this.userName + '&password=' + this.passwd1)
             .then(res => {
               if (res.data === "isexist") {
-                // todo: show tips about register faild please retry
+                // todo: show tips about register faild please retry dialog
                 alert(res.data)
               } else if (res.data === "ok") {
                 this.switchBackToLogin();

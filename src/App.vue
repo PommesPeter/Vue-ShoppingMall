@@ -18,9 +18,13 @@
             class="shrink mt-1 hidden-sm-and-down"
             contain
             min-width="100"
-            src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-            width="100"
+            src="./assets/title.png"
+            width="300" style="margin-left: -20px"
         />
+        <v-btn class="mx-4" v-show="this.$global.isShowCart" @click="createOrder"
+               style="width: 100px">
+          生成订单
+        </v-btn>
       </div>
 
       <v-spacer></v-spacer>
@@ -40,10 +44,11 @@
       </div>
       <div class="CartList"
            v-show="this.$global.isShowCart">
-        <CartList :cart_list="load_data"/>
+        <CartList :cart_list="load_cart_data"/>
       </div>
-      <div class="OrderList">
-        <OrderList v-show="this.$global.isShowOrder"/>
+      <div class="OrderList"
+           v-show="this.$global.isShowOrder">
+        <OrderList :order_list="load_order_data" :user-id="this.userId"/>
       </div>
     </v-main>
     <BottomNavi class="bottom-navi"
@@ -117,14 +122,32 @@ export default {
             .then(res => {
               localStorage.setItem("order_list", JSON.stringify(res.data));
               this.order_list = res.data;
-              console.log(res.data)
+              console.log("order_list", res.data)
             }).catch(error => {
           alert("发生错误..." + error);
         })
       } else {
         this.userId = "";
       }
-      this.order_list = JSON.parse(localStorage.getItem("order_list"));
+      // this.order_list = JSON.parse(localStorage.getItem("order_list"));
+    },
+    createOrder() {
+      let selectedCart = JSON.parse(localStorage.getItem("selectedCart"));
+      if (selectedCart.length === 0) {
+        alert("未选择任何商品，无法生成订单...");
+      } else {
+        let needed = selectedCart.toString();
+        this.$axios.post(`/order/addCastOrder?userId=${this.userId}&cartList=${needed}`)
+        .then(res => {
+          localStorage.setItem("order_list", JSON.stringify(res.data));
+          alert("生成订单成功....")
+          console.log(res.data)
+        })
+        .catch(err => {
+          alert("出错了...." + err)
+        })
+
+      }
     },
     updatePage(data) {
       console.log("Reloading....", data)
@@ -132,8 +155,11 @@ export default {
     }
   },
   computed: {
-    load_data() {
+    load_cart_data() {
       return this.cart_list;
+    },
+    load_order_data() {
+      return this.order_list;
     }
   },
   mounted() {

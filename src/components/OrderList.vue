@@ -1,23 +1,35 @@
 <template>
-  <div>
-      <v-data-table
-          :headers="headers"
-          :items="desserts"
-          :items-per-page="5"
-          class="elevation-1"
-      ></v-data-table>
+  <div class="root">
+    <div v-for="(orders, index) in load_order_list" :key="index">
+      <OrderTable :order_item="orders" :index="index"/>
+    </div>
   </div>
 
 </template>
 
 <script>
-
+import OrderTable from "./OrderTable";
 export default {
   name: "OrderList",
-  props: ['userId'],
+  props: ['userId', 'order_list'],
+  data() {
+    return {
+      selectedCart: []
+    }
+  },
   components: {
-
+    OrderTable
+  },
+  computed: {
+    load_order_list () {
+      this.$forceUpdate();
+      return this.order_list;
+    }
+  },
+  mounted() {
+    localStorage.setItem("selectedCart", JSON.stringify(this.selectedCart))
   }
+
 }
 </script>
 
