@@ -49,7 +49,7 @@ export default {
   }),
   methods: {
     loginToServer() {
-      if (localStorage.getItem("userId") !== null) {
+      if (localStorage.getItem("userId").length !== 0) {
         this.$emit("sendUserIdEvent",localStorage.getItem("userId"));
       } else {
         this.$axios.post('/user/login?name=' + this.userName + "&password=" + this.passwd)

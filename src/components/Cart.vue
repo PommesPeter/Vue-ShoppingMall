@@ -70,7 +70,7 @@ export default {
     },
     chooseItem() {
       this.selectedCart = JSON.parse(localStorage.getItem("selectedCart"));
-      console.log(this.selectedAll, this.selected)
+      console.log(this.selected)
       if (this.selected === true) {
         this.selected = false;
         this.bgColor = "white";

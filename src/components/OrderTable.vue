@@ -74,7 +74,7 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     this.add_data_to_table()
   }
 

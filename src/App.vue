@@ -31,8 +31,10 @@
     </v-app-bar>
 
     <v-main>
-      <LoginPage v-show="this.$global.isShowLogin" @onUpdateLogin="updatePage"
+      <LoginPage v-if="userId.length === 0" v-show="this.$global.isShowLogin"
                  @sendUserIdEvent="showCartFromUserId"/>
+      <LogoutPage v-else v-show="this.$global.isShowLogin" @onUpdateLogout="updatePage"></LogoutPage>
+
       <RegisterPage v-show="this.$global.isShowRegister"
                     @onUpdateLogin="updatePage"/>
       <!--      这里有子组件给父组件传值的写法-->
@@ -58,33 +60,32 @@
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld';
 import BottomNavi from "./components/BottomNavi";
 import GoodsItem from "./components/GoodsItem";
 import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
 import CartList from "./components/CartList";
 import OrderList from "./components/OrderList";
+import LogoutPage from "./components/LogoutPage";
 
 export default {
   name: 'App',
-
   components: {
     BottomNavi,
     GoodsItem,
     LoginPage,
     RegisterPage,
     CartList,
-    OrderList
+    OrderList,
+    LogoutPage
   },
-
   data: () => ({
     goods_list: [],
     cart_list: [],
     order_list: [],
-    userId: localStorage.getItem("userId")
+    userId: '',
+    isLogin: false
   }),
-
   methods: {
     get_goods_data() {
       this.$axios.get('/goods/list')
@@ -115,7 +116,7 @@ export default {
     },
     showOrderFromUserId(data) {
       console.log(data, "222")
-      if (data !== 'undefined' && data != null && data !== "") {
+      if (data.length !== 0) {
         this.userId = data;
         this.updatePage("OrderList")
         this.$axios.get('/order/listByUser?userId=' + data)
@@ -146,7 +147,6 @@ export default {
         .catch(err => {
           alert("出错了...." + err)
         })
-
       }
     },
     updatePage(data) {
@@ -159,17 +159,19 @@ export default {
       return this.cart_list;
     },
     load_order_data() {
+      // console.log("order_list length", this.order_list.length)
       return this.order_list;
     }
   },
   mounted() {
     this.get_goods_data();
+    localStorage.setItem("userId", this.userId);
+    console.log(localStorage.getItem("userId"));
   }
 };
 </script>
 
 <style>
-
 .bottom-navi {
   position: fixed;
 }
