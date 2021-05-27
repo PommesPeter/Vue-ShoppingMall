@@ -17,9 +17,8 @@
         <v-img
             class="shrink mt-1 hidden-sm-and-down"
             contain
-            min-width="100"
             src="./assets/title.png"
-            width="300" style="margin-left: -20px"
+            width="150" style="margin-left: 10px"
         />
         <v-btn class="mx-4" v-show="this.$global.isShowCart" @click="createOrder"
                style="width: 100px">
@@ -31,7 +30,7 @@
     </v-app-bar>
 
     <v-main>
-      <LoginPage v-if="userId.length === 0" v-show="this.$global.isShowLogin"
+      <LoginPage v-if="userId.length === 0" v-show="this.$global.isShowLogin" @onUpdateRegister="updatePage"
                  @sendUserIdEvent="showCartFromUserId"/>
       <LogoutPage v-else v-show="this.$global.isShowLogin" @onUpdateLogout="updatePage"></LogoutPage>
 
@@ -46,7 +45,7 @@
       </div>
       <div class="CartList"
            v-show="this.$global.isShowCart">
-        <CartList :cart_list="load_cart_data"/>
+        <CartList :cart_list="load_cart_data" @onUpdateDeleteList="updatePage"/>
       </div>
       <div class="OrderList"
            v-show="this.$global.isShowOrder">
@@ -97,14 +96,14 @@ export default {
       })
     },
     showCartFromUserId(data) {
-      console.log(data, "1111")
+      console.log("userId", data.toString())
       if (data !== 'undefined' && data != null && data !== "") {
         this.userId = data;
         this.updatePage("GoodsList2")
         this.$axios.get(`/cart/listByUser?userId=${data}`)
             .then(res => {
-              localStorage.setItem("cart_list", JSON.stringify(res.data));
               this.cart_list = res.data;
+              localStorage.setItem("cart_list", JSON.stringify(res.data));
               // console.log(res.data)
             }).catch(error => {
           alert("发生错误..." + error);
@@ -113,6 +112,7 @@ export default {
         this.userId = "";
       }
       this.cart_list = JSON.parse(localStorage.getItem("cart_list"))
+      console.log(this.cart_list)
     },
     showOrderFromUserId(data) {
       console.log(data, "222")

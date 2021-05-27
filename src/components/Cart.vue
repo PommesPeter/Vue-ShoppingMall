@@ -59,10 +59,12 @@ export default {
     deleteItem() {
       this.$axios.post(`/cart/deleteById?userId=${this.userId}&cartId=${this.cartId}`)
           .then(res => {
-            this.cart_list = res.data;
+            // this.cart_list = res.data;
             localStorage.setItem("cart_list", JSON.stringify(res.data));
-            this.$emit("onUpdateListAfterDel", "Del List");
-            alert("删除成功...");
+            console.log("删除成功");
+            this.$forceUpdate();
+            this.$emit("onUpdateListAfterDelete", "DelList", res.data);
+            // alert("删除成功...");
           })
           .catch(err => {
             alert("发生错误:" + err);

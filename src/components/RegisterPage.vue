@@ -3,7 +3,6 @@
     <form>
       <v-text-field
           v-model="userName"
-          :counter="20"
           label="用户名"
           required
           style="justify-content: center; width: auto"
@@ -11,13 +10,13 @@
       <v-text-field
           v-model="passwd1"
           label="密码"
-          required
+          required clearable type="password"
           style="justify-content: center; width: auto;"
       ></v-text-field>
       <v-text-field
           v-model="passwd2"
           label="确认密码"
-          required
+          required clearable type="password"
           style="justify-content: center; width: auto;"
       ></v-text-field>
 
@@ -56,21 +55,27 @@ export default {
     },
     registerUser() {
       if (this.passwd1 === this.passwd2) {
+        if (this.passwd1.length === 0 || this.passwd2.length === 0) {
+          alert("用户名不能为空...");
+          return;
+        }
         console.log(this.userName, this.passwd1)
         this.$axios.post('/user/register?name=' + this.userName + '&password=' + this.passwd1)
             .then(res => {
               if (res.data === "isexist") {
-                // todo: show tips about register faild please retry dialog
-                alert(res.data)
+                alert("用户已经存在，请重新输入...")
               } else if (res.data === "ok") {
                 this.switchBackToLogin();
-                alert(res.data)
+                alert("注册成功...")
               } else this.$forceUpdate();
             })
             .catch(error => {
               console.log(error)
             })
-      } else {
+      } else if (this.passwd1.length === 0 || this.passwd2.length === 0) {
+        alert("用户名不能为空...")
+      }
+      else {
         this.clear();
         alert("两次输入密码不一致");
       }

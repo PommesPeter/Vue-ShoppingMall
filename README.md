@@ -1,24 +1,30 @@
 # shopping-mall
 
-## Project setup
-```
-npm install
-```
+## Instruction
+本仓库为Web前端开发技术结课大作业，制作的是一个电商网站。
 
-### Compiles and hot-reloads for development
-```
+### Usage
+
+启动网站：
+```shell
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## 说明
 
-### Lints and fixes files
-```
-npm run lint
-```
+```markdown
+版权所有（c）2021 PommesPeter
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+反课设抄袭许可证-version 0.5
+
+1、如果你想使用本项目的代码来交课设，
+那么请尽可能在完善本项目的基础上进行使用，
+因为本项目其实还有部分模块写得比较懒需要继续完善。(BUG还很多）
+因为本项目代码比较乱，复用性太差，可读性不强，稳定性太差，所以参考价值不大。
+
+2、一行不改甚至只改个100-200行代码就加上学号和名字说是你做的，
+这种情况是是不被允许的！
+
+3、上文所指的课设，包括诸如毕设，课程设计，课程结束考核等，
+诸如此类情况而违反上述条例使用该程序的代码，都是不被允许的。
+```

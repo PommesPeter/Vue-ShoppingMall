@@ -93,7 +93,6 @@ export default {
       this.$axios.post(`/cart/add?userId=${this.userId}&goodsId=${id}&num=${this.num}&price=${price1}`)
           .then(res => {
             localStorage.setItem("cart_list", JSON.stringify(res.data));
-            console.log(res.data)
             alert("加入购物车成功...")
           }).catch(err => {
         alert("请求错误...." + err)

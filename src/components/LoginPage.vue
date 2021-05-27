@@ -3,15 +3,14 @@
     <form>
       <v-text-field
           v-model="userName"
-          :counter="20"
           label="用户名"
-          required
+          required clearable
           style="justify-content: center; width: auto"
       ></v-text-field>
       <v-text-field
           v-model="passwd"
           label="密码"
-          required
+          required clearable type="password"
           style="justify-content: center; width: auto;"
       ></v-text-field>
 
@@ -52,6 +51,10 @@ export default {
       if (localStorage.getItem("userId").length !== 0) {
         this.$emit("sendUserIdEvent",localStorage.getItem("userId"));
       } else {
+        if (this.userName.length === 0 || this.passwd.length === 0) {
+          alert("用户名或密码为空...");
+          return;
+        }
         this.$axios.post('/user/login?name=' + this.userName + "&password=" + this.passwd)
             .then(res => {
               if (res.data === "invalid") {
@@ -81,7 +84,7 @@ export default {
       this.$global.isShowRegister = true;
       console.log("str", this.$global.isShowRegister)
       this.$forceUpdate();
-      this.$emit("onUpdateLogin", "Register");
+      this.$emit("onUpdateRegister", "Register");
     }
   },
 }
