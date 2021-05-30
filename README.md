@@ -1,7 +1,7 @@
 # Vue-ShoppingMall
 
 ## Instruction
-This repo is about a shopping mall website which created by vue framework for the course of web development last assignment.
+This repo is about a shopping mall website which created by vue framework for the course of web development last assignment. I may reconstruct this project when I'm in spare time and want to learning how to build a web formally in the future.
 
 ### Usage
 
