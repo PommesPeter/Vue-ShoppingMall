@@ -1,4 +1,4 @@
-# shopping-mall
+# Vue-ShoppingMall
 
 ## Instruction
 This repo is about a shopping mall website which created by vue framework for the course of web development last assignment.
@@ -10,7 +10,7 @@ get start：
 npm run serve
 ```
 
-## 说明
+## Important!!!
 
 ```markdown
 版权所有（c）2021 PommesPeter
