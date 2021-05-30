@@ -1,11 +1,11 @@
 # shopping-mall
 
 ## Instruction
-本仓库为Web前端开发技术结课大作业，制作的是一个电商网站。
+This repo is about a shopping mall website which created by vue framework for the course of web development last assignment.
 
 ### Usage
 
-启动网站：
+get start：
 ```shell
 npm run serve
 ```
